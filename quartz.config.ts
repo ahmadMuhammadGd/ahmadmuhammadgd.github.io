@@ -1,4 +1,5 @@
 import { QuartzConfig } from "./quartz/cfg"
+import { CustomOgImages } from "./quartz/plugins/emitters/ogImage"
 import * as Plugin from "./quartz/plugins"
 
 /**
@@ -16,7 +17,7 @@ const config: QuartzConfig = {
       provider: "plausible",
     },
     locale: "en-US",
-    baseUrl: "quartz.jzhao.xyz",
+    baseUrl: "https://ahmadmuhammadgd.github.io",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "modified",
     theme: {
@@ -84,12 +85,19 @@ const config: QuartzConfig = {
         enableSiteMap: true,
         enableRSS: true,
       }),
+      CustomOgImages({
+        colorScheme: "lightMode", // what colors to use for generating image, same as theme colors from config, valid values are "darkMode" and "lightMode"
+        width: 1200, // width to generate with (in pixels)
+        height: 630, // height to generate with (in pixels)
+        excludeRoot: false, // wether to exclude "/" index path to be excluded from auto generated images (false = use auto, true = use default og image)
+        socialImage: "quartz/static/og-image.png"
+      }),
       Plugin.Assets(),
       Plugin.Static(),
       Plugin.Favicon(),
       Plugin.NotFoundPage(),
       // Comment out CustomOgImages to speed up build time
-      Plugin.CustomOgImages(),
+      // Plugin.CustomOgImages(),
     ],
   },
 }
