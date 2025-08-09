@@ -1,4 +1,6 @@
 ---
+title: Data Engineering Thoughts
+description: Some thoughts, nothing special
 ---
 
 - Prefer pipelines as **code**, not GUIs.
