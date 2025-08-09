@@ -10,6 +10,9 @@ tags:
 
 📎 [Go Live](https://dataskillviz.streamlit.app/)
 
+> [!warning]
+> I’m on the **free tier** for both Streamlit and Aiven, If something goes wrong, it’s likely because they shut down my instances due to inactivity, contact me if that happens.
+
 > ![home page](DataSkillViz-home.gif)  
 
 **Impact:**
@@ -35,5 +38,3 @@ tags:
 - **UX:** Streamlit app with tool demand charts and association graphs.  
 > ![frequency pattern](DataSkillViz-fp.gif)  
 
-> [!warning]
-> I’m on the **free tier** for both Streamlit and Aiven, If something goes wrong, it’s likely because they shut down my instances due to inactivity, contact me if that happens.
