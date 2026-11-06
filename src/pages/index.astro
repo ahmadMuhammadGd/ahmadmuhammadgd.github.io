@@ -150,16 +150,26 @@ const sortedArticles = [...articles].sort((a, b) => {
   </div>
 
   <!-- Two-column feature: copy left, product right -->
-  <div
-    class="grid items-center gap-12 pb-16 md:grid-cols-[1.1fr_1fr] md:gap-16 lg:gap-24"
-  >
-    <!-- Left: all copy on one axis -->
-    <div>
-      <h2 class="max-w-xl text-title text-ink sm:text-3xl lg:text-4xl">
-        Data quality should live where the data runs.
-      </h2>
+<div class="grid items-center gap-8 pb-16 md:grid-cols-[1.1fr_1fr] md:gap-16 lg:gap-24">
+  <!-- Left: copy -->
+  <div class="grid gap-6 md:gap-0">
+    <h2 class="max-w-xl text-title text-ink sm:text-3xl lg:text-4xl">
+      Data quality should live where the data runs.
+    </h2>
 
-      <p class="mt-6 max-w-xl text-body text-ink-muted">
+    <!-- Mobile image position -->
+    <div class="relative order-2 flex min-h-48 items-center justify-center border border-line p-8 sm:min-h-64 sm:p-14 md:hidden">
+      <span class="absolute left-0 top-0 h-3 w-3 border-l border-t border-ink-faint"></span>
+      <span class="absolute right-0 top-0 h-3 w-3 border-r border-t border-ink-faint"></span>
+      <span class="absolute bottom-0 left-0 h-3 w-3 border-b border-l border-ink-faint"></span>
+      <span class="absolute bottom-0 right-0 h-3 w-3 border-b border-r border-ink-faint"></span>
+
+      <img src="/nativedq-logo-dark.svg" alt="NativeDQ logo" class="hidden h-20 w-auto max-w-full object-contain sm:h-24 dark:block" />
+      <img src="/nativedq-logo-light.svg" alt="NativeDQ logo" class="block h-20 w-auto max-w-full object-contain sm:h-24 dark:hidden" />
+    </div>
+
+    <div class="order-3 md:order-none">
+      <p class="max-w-xl text-body text-ink-muted">
         nativedq is an open-source framework I founded for running native data
         quality tests against processed data. It separates test definition,
         execution, and artifact storage, so validation happens inside the
@@ -167,38 +177,25 @@ const sortedArticles = [...articles].sort((a, b) => {
         becoming another external reporting layer.
       </p>
 
-      <!-- Same treatment as the hero's "Explore my work" button -->
       <Button
-        href="https://github.com/ahmadMuhammadGd/NativeDQ",
-        label="Explore nativedq",
+        href="https://github.com/ahmadMuhammadGd/NativeDQ"
+        label="Explore nativedq"
         class="!bg-accent !text-white hover:!bg-accent-muted mt-10"
       />
     </div>
-      <!-- Right: the product, framed -->
-    <div
-      class="relative flex min-h-64 items-center justify-center border border-line p-10 sm:p-14"
-    >
-      <!-- Corner ticks echo the hero's technical/grid feel -->
-      <span class="absolute left-0 top-0 h-3 w-3 border-l border-t border-ink-faint"></span>
-      <span class="absolute right-0 top-0 h-3 w-3 border-r border-t border-ink-faint"></span>
-      <span class="absolute bottom-0 left-0 h-3 w-3 border-b border-l border-ink-faint"></span>
-      <span class="absolute bottom-0 right-0 h-3 w-3 border-b border-r border-ink-faint"></span>
-
-<img
-  src="/nativedq-logo-dark.svg"
-  alt="NativeDQ logo"
-  class="hidden h-20 w-auto max-w-full object-contain sm:h-24 dark:block"
-/>
-
-<img
-  src="/nativedq-logo-light.svg"
-  alt="NativeDQ logo"
-  class="block h-20 w-auto max-w-full object-contain sm:h-24 dark:hidden"
-/>
-
-
-    </div>
   </div>
+
+  <!-- Desktop image -->
+  <div class="relative hidden min-h-64 items-center justify-center border border-line p-10 sm:p-14 md:flex">
+    <span class="absolute left-0 top-0 h-3 w-3 border-l border-t border-ink-faint"></span>
+    <span class="absolute right-0 top-0 h-3 w-3 border-r border-t border-ink-faint"></span>
+    <span class="absolute bottom-0 left-0 h-3 w-3 border-b border-l border-ink-faint"></span>
+    <span class="absolute bottom-0 right-0 h-3 w-3 border-b border-r border-ink-faint"></span>
+
+    <img src="/nativedq-logo-dark.svg" alt="NativeDQ logo" class="hidden h-20 w-auto max-w-full object-contain sm:h-24 dark:block" />
+    <img src="/nativedq-logo-light.svg" alt="NativeDQ logo" class="block h-20 w-auto max-w-full object-contain sm:h-24 dark:hidden" />
+  </div>
+</div>
 </section>
 
 <!-- Selected Work -->

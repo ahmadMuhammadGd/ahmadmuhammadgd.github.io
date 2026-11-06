@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
 ---
 
 <MainLayout
@@ -120,5 +121,34 @@ import Hero from '../components/Hero.astro';
 
       </div>
     </div>
+
+<section class="relative mx-auto mt-20 w-full max-w-7xl px-5 sm:mt-24 sm:px-8 lg:px-12">
+
+  <!-- <div class="mt-10 grid gap-10 md:grid-cols-[180px_1fr] md:gap-12"> -->
+
+      <div class="max-w-3xl">
+      <p
+        class="text-xl leading-8 text-ink sm:text-2xl sm:leading-9 lg:text-3xl lg:leading-[1.35]"
+      >
+          Have an interesting data engineering problem? </p>
+      <p
+        class="text-xl leading-8 text-ink sm:text-2xl sm:leading-9 lg:text-3xl lg:leading-[1.35]"
+      >
+          I'm open to discussing opportunities involving data infrastructure,
+          distributed processing, data quality, and developer tooling.
+        </p>
+
+        <div class="mt-8">
+          <Button
+            href="/contact-me"
+            label="Discuss an opportunity"
+            class="!bg-accent !text-ink hover:!bg-accent-muted mr-5"
+          />
+        </div>
+      </div>
+
+    <!-- </div> -->
+    
+  </section>
   </section>
 </MainLayout>
