@@ -1,0 +1,102 @@
+---
+export interface Props {
+  metric: string;
+  description: string;
+}
+
+const { metric, description } = Astro.props;
+---
+
+<div class="metric">
+  <div
+    class="metric-value font-mono text-2xl tracking-tight text-ink sm:text-3xl"
+    data-value={metric}
+  >
+    {metric}
+  </div>
+
+  <div class="mt-2 font-mono text-label uppercase text-ink-faint">
+    {description}
+  </div>
+</div>
+
+<script>
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.querySelectorAll<HTMLElement>(".metric-value").forEach((element) => {
+      const original = element.dataset.value ?? "";
+      let animation: number | undefined;
+
+      const scramble = (delay = 0) => {
+        if (animation) {
+          cancelAnimationFrame(animation);
+        }
+
+        const start = performance.now() + delay;
+        const duration = 700;
+
+        const animate = (now: number) => {
+          if (now < start) {
+            animation = requestAnimationFrame(animate);
+            return;
+          }
+
+          const progress = Math.min((now - start) / duration, 1);
+          let output = "";
+
+          for (let i = 0; i < original.length; i++) {
+            const characterProgress = Math.max(
+              0,
+              Math.min(1, progress * original.length - i)
+            );
+
+            if (characterProgress >= 1) {
+              output += original[i];
+            } else {
+              output += chars[Math.floor(Math.random() * chars.length)];
+            }
+          }
+
+          element.textContent = output;
+
+          if (progress < 1) {
+            animation = requestAnimationFrame(animate);
+          } else {
+            element.textContent = original;
+            animation = undefined;
+          }
+        };
+
+        animation = requestAnimationFrame(animate);
+      };
+
+      // Initial scramble
+      const index = Array.from(
+        document.querySelectorAll(".metric-value")
+      ).indexOf(element);
+
+      scramble(index * 120 + 300);
+
+      // Scramble again on hover
+      element.addEventListener("mouseenter", () => {
+        scramble();
+      });
+
+      element.addEventListener("mouseleave", () => {
+        if (animation) {
+          cancelAnimationFrame(animation);
+          animation = undefined;
+        }
+
+        element.textContent = original;
+      });
+    });
+  }
+</script>
+
+<style>
+  .metric-value {
+    cursor: default;
+  }
+</style>

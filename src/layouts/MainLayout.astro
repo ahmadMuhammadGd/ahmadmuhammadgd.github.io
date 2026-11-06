@@ -1,0 +1,103 @@
+---
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+import { ClientRouter } from "astro:transitions";
+import MouseTail from '../components/MouseTail.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const siteTitle = 'Ahmad Muhammad';
+const pageTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+const pageDescription =
+  description ??
+  'Data Engineer building data infrastructure, execution tooling, and open-source systems.';
+---
+
+<!doctype html>
+
+<html lang="en" class="bg-paper text-ink" transition:animate="slide">
+  <head>
+  <script is:inline>
+    (() => {
+      const theme = localStorage.getItem("theme");
+
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    })();
+
+    /*
+    * Astro View Transitions:
+    * Restore the theme onto the incoming document
+    * before it is painted.
+    */
+    document.addEventListener("astro:before-swap", (event) => {
+      const theme = localStorage.getItem("theme");
+
+      event.newDocument.documentElement.classList.toggle(
+        "dark",
+        theme === "dark"
+      );
+    });
+
+    /*
+    * Safety net after the swap.
+    */
+    document.addEventListener("astro:after-swap", () => {
+      const theme = localStorage.getItem("theme");
+
+      document.documentElement.classList.toggle(
+        "dark",
+        theme === "dark"
+      );
+    });
+  </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="description" content={pageDescription} />
+
+    <meta name="theme-color" content="#F8F9FA" />
+
+    <ClientRouter />
+
+    <title>{pageTitle}</title>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- IBM Plex -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="min-h-screen bg-paper font-sans text-ink antialiased">
+    <MouseTail />
+    
+    <div class="flex min-h-screen flex-col">
+      <Navigation />
+
+      <main class="flex-1">
+        <div class="mx-auto w-full"> 
+          <slot />
+        </div>
+      </main>
+      
+
+      <Footer />
+
+    </div>
+  </body>
+</html>

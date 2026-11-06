@@ -1,0 +1,30 @@
+---
+export interface Props {
+  href: string;
+  label: string;
+  class?: string;
+}
+
+const { href, label, class: className } = Astro.props;
+
+const isExternal = /^https?:\/\//.test(href);
+---
+
+<a
+  href={href}
+  target={isExternal ? "_blank" : undefined}
+  rel={isExternal ? "noopener noreferrer" : undefined}
+  class:list={[
+    'group inline-flex items-center gap-0 bg-ink px-5 py-3 font-mono text-sm font-medium text-paper transition-all duration-200 hover:opacity-80 hover:gap-3 dark:bg-ink dark:text-paper',
+    className,
+  ]}
+>
+  <span>{label}</span>
+
+  <span
+    aria-hidden="true"
+    class="w-0 overflow-hidden opacity-0 transition-all duration-50 group-hover:w-auto group-hover:opacity-100"
+  >
+    →
+  </span>
+</a>

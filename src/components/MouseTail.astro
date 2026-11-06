@@ -1,0 +1,164 @@
+---
+---
+
+<canvas class="hero-canvas" aria-hidden="true"></canvas>
+
+<script>
+  let cleanupHeroEffect: (() => void) | null = null;
+
+  const initHeroEffect = () => {
+    cleanupHeroEffect?.();
+    cleanupHeroEffect = null;
+
+    const canvas = document.querySelector<HTMLCanvasElement>(".hero-canvas");
+
+    if (!canvas) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx) return;
+
+    const mouse = {
+      x: -1000,
+      y: -1000,
+    };
+
+    // Multiple points create a smooth trailing thread
+    const trail: { x: number; y: number }[] = [];
+
+    const trailLength = 5;
+
+    let width = 0;
+    let height = 0;
+    let animationFrame = 0;
+
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1;
+
+      width = window.innerWidth;
+      height = window.innerHeight;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const move = (event: MouseEvent) => {
+      mouse.x = event.clientX;
+      mouse.y = event.clientY;
+
+      // Initialize trail on first movement
+      if (trail.length === 0) {
+        for (let i = 0; i < trailLength; i++) {
+          trail.push({
+            x: mouse.x,
+            y: mouse.y,
+          });
+        }
+      }
+    };
+
+    const leave = () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      if (trail.length > 0 && mouse.x > -500) {
+        // First point follows the mouse
+        trail[0].x += (mouse.x - trail[0].x) * 0.18;
+
+        trail[0].y += (mouse.y - trail[0].y) * 0.18;
+
+        // Each point follows the previous point
+        for (let i = 1; i < trail.length; i++) {
+          trail[i].x += (trail[i - 1].x - trail[i].x) * 0.22;
+
+          trail[i].y += (trail[i - 1].y - trail[i].y) * 0.22;
+        }
+
+        /*
+         * Draw the thread as a smooth curve.
+         */
+        ctx.beginPath();
+
+        ctx.moveTo(trail[0].x, trail[0].y);
+
+        for (let i = 1; i < trail.length - 1; i++) {
+          const current = trail[i];
+          const next = trail[i + 1];
+
+          const centerX = (current.x + next.x) / 2;
+
+          const centerY = (current.y + next.y) / 2;
+
+          ctx.quadraticCurveTo(current.x, current.y, centerX, centerY);
+        }
+
+        /*
+         * Monochrome line.
+         *
+         * Automatically adapts to dark/light mode.
+         */
+        const isDark = document.documentElement.classList.contains("dark");
+
+        ctx.strokeStyle = isDark
+          ? "rgba(255, 255, 255, 0.45)"
+          : "rgba(0, 0, 0, 0.4)";
+
+        ctx.lineWidth = 1;
+
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+
+        ctx.stroke();
+
+        /*
+         * Small cursor point.
+         */
+        ctx.beginPath();
+
+        ctx.arc(trail[0].x, trail[0].y, 2, 0, Math.PI * 2);
+
+        ctx.fillStyle = isDark
+          ? "rgba(255, 255, 255, 0.8)"
+          : "rgba(0, 0, 0, 0.4)";
+
+        ctx.fill();
+      }
+
+      animationFrame = requestAnimationFrame(draw);
+    };
+
+    const controller = new AbortController();
+
+    window.addEventListener("resize", resize, { signal: controller.signal });
+
+    document.addEventListener("mousemove", move, { signal: controller.signal });
+
+    document.addEventListener("mouseleave", leave, {
+      signal: controller.signal,
+    });
+
+    cleanupHeroEffect = () => {
+      controller.abort();
+      cancelAnimationFrame(animationFrame);
+    };
+
+    resize();
+
+    draw();
+  };
+
+  document.addEventListener("astro:page-load", initHeroEffect);
+</script>

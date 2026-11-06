@@ -1,0 +1,124 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Hero from '../components/Hero.astro';
+---
+
+<MainLayout
+  title="About"
+  description="Ahmad Muhammad — Data Engineer based in Egypt."
+>
+  <section class="relative mx-auto mt-20 w-full max-w-7xl px-5 sm:mt-24 sm:px-8 lg:px-12">
+    <Hero
+      title="About"
+      subtitle="Data engineering, infrastructure, and open-source software."
+    />
+
+    <div class="grid gap-12 md:grid-cols-[180px_1fr] md:gap-16">
+
+      <!-- Index -->
+      <aside class="space-y-6">
+        <span class="font-mono text-label uppercase tracking-wide text-ink-faint">
+          01 / Profile
+        </span>
+
+        <div class="space-y-1 font-mono text-label text-ink-faint">
+          <p>Egypt</p>
+          <p>Data Engineer</p>
+          <p>Since 2024</p>
+        </div>
+      </aside>
+
+      <div class="space-y-12">
+
+        <!-- Introduction -->
+        <div class="max-w-3xl">
+          <h2 class="text-2xl font-medium tracking-tight text-ink sm:text-3xl">
+            I build systems that move, process, and validate data.
+          </h2>
+          <p class="mt-4 max-w-2xl text-body leading-relaxed text-ink-muted">
+            Electronics and Communications Engineering graduate.
+            Working across data engineering, distributed processing,
+            and infrastructure.
+          </p>
+        </div>
+
+        <!-- Focus -->
+        <div class="space-y-5">
+          <span class="font-mono text-label uppercase tracking-wide text-ink-faint">
+            02 / Focus
+          </span>
+
+          <div class="grid gap-6 border-y border-line py-6 sm:grid-cols-2">
+            <div>
+              <h3 class="text-ink font-medium">Data systems</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+                Ingestion, orchestration, transformation, and distributed processing.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-ink font-medium">Infrastructure</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+                The tooling and systems behind reliable data workflows.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toolkit -->
+        <div class="space-y-5">
+          <span class="font-mono text-label uppercase tracking-wide text-ink-faint">
+            03 / Toolkit
+          </span>
+
+          <div class="flex flex-wrap gap-x-3 gap-y-2 font-mono text-sm text-ink-muted">
+            <span>Python</span>
+            <span>-</span>
+            <span>SQL</span>
+            <span>-</span>
+            <span>Apache Airflow</span>
+            <span>-</span>
+            <span>Apache Spark</span>
+            <span>-</span>
+            <span>Docker</span>
+            <span>-</span>
+            <span>PostgreSQL</span>
+            <span>-</span>
+            <span>Delta Lake</span>
+          </div>
+        </div>
+
+        <!-- Open source -->
+        <div class="space-y-5">
+          <span class="font-mono text-label uppercase tracking-wide text-ink-faint">
+            04 / Outside work
+          </span>
+
+    <div class="flex flex-col items-start gap-3">
+      <div>
+        <h3 class="text-xl font-medium tracking-tight text-ink">
+          nativedq
+        </h3>
+        <p class="mt-1 text-sm text-ink-muted">
+          An open-source approach to data quality within processing engines.
+        </p>
+      </div>
+
+      <!-- class="inline-flex items-center gap-2 font-mono text-label uppercase tracking-wide text-ink transition-colors hover:text-accent" -->
+      <a
+        href="https://github.com/ahmadMuhammadGd/dqt"
+        target="_blank"
+        rel="noopener noreferrer"
+          class="link-draw font-mono text-xs uppercase tracking-wide text-ink-muted transition-colors duration-200 hover:text-accent"
+      >
+        View project ↗
+        </a>
+
+
+    </div>
+    </div>
+
+      </div>
+    </div>
+  </section>
+</MainLayout>

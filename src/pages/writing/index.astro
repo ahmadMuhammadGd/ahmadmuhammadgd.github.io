@@ -1,0 +1,181 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { getArticles } from "../../lib/devto";
+import ArticleRow from "../../components/ArticleRow.astro";
+
+const articles = await getArticles();
+
+const sortedArticles = [...articles].sort((a, b) => {
+  return (
+    new Date(b.published_at).getTime() -
+    new Date(a.published_at).getTime()
+  );
+});
+
+---
+
+<MainLayout
+  title="Selected Articles"
+  description="Systems, tooling, and infrastructure I've built, operated, and investigated by Ahmad Muhammad."
+>
+  <section class="work-intro">
+  <div class="mt-6 w-full">
+    <h1
+    id="work-title"
+      class="text-display text-ink will-change-transform"
+      >
+      <span class="block text-left">SELECTED</span>
+      
+      <span class="block text-right leading-none pr-[clamp(1rem,4vw,5rem)]">
+        ARTICLES
+      </span>
+    </h1>
+  </div>
+
+  <div
+  id="work-description"
+  class="flex items-start gap-3 will-change-transform"
+  >
+    <span class="mt-[0.7em] h-px flex-1 bg-accent"></span>
+
+    <p class="max-w-2xl text-body leading-relaxed text-ink-muted">
+      Systems, tooling, and infrastructure I've built, operated, and
+      investigated
+    </p>
+  </div>
+</section>
+
+<script>
+  let cleanupWorkParallax: (() => void) | null = null;
+  
+  const initWorkParallax = () => {
+    cleanupWorkParallax?.();
+    
+    const section = document.querySelector(".work-intro");
+    const title = document.getElementById("work-title");
+    const description = document.getElementById("work-description");
+
+    if (
+      !section ||
+      !title ||
+      !description ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
+    let ticking = false;
+
+    // Original position = page position when initialized
+    const initialScrollY = window.scrollY;
+
+    const updateParallax = () => {
+      const scrollDelta = window.scrollY - initialScrollY;
+
+      // At the original scroll position, ALWAYS return to zero.
+      if (Math.abs(scrollDelta) < 1) {
+        title.style.transform = "translate3d(0, 0, 0)";
+        description.style.transform = "translate3d(0, 0, 0)";
+
+        ticking = false;
+        return;
+      }
+
+      const rect = section.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      if (rect.bottom > -200 && rect.top < viewportHeight + 200) {
+        const progress =
+          (viewportHeight - rect.top) /
+          (viewportHeight + rect.height);
+
+        const movement =
+          Math.max(-1, Math.min(1, progress - 0.5)) * 40;
+
+        const offset = movement * -10;
+
+        title.style.transform =
+          `translate3d(0, ${offset}px, 0)`;
+
+        description.style.transform =
+          `translate3d(0, ${offset}px, 0)`;
+      }
+      
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+
+      ticking = true;
+      requestAnimationFrame(updateParallax);
+    };
+
+    window.addEventListener("scroll", onScroll, {
+      passive: true,
+    });
+
+    // IMPORTANT: initialize at the original position
+    title.style.transform = "translate3d(0, 0, 0)";
+    description.style.transform = "translate3d(0, 0, 0)";
+
+    cleanupWorkParallax = () => {
+      window.removeEventListener("scroll", onScroll);
+
+      title.style.transform = "translate3d(0, 0, 0)";
+      description.style.transform = "translate3d(0, 0, 0)";
+
+      ticking = false;
+    };
+  };
+  
+  document.addEventListener("astro:page-load", initWorkParallax);
+  
+  initWorkParallax();
+</script>
+
+<div class="mx-auto mt-16 w-full max-w-7xl px-5 sm:mt-20 sm:px-8 lg:px-12">
+
+  <!-- Articles -->
+  <section class="relative flex flex-col gap-8 sm:gap-10">
+    {
+      sortedArticles.map((article, index) => (
+        <ArticleRow
+          title={article.title}
+          description={article.description}
+          tags={article.tag_list}
+          url={article.url}
+          coverImage={article.cover_image}
+          index={index + 1}
+        />
+      ))
+    }
+  </section>
+
+  <!-- Editorial closing -->
+  <section class="mt-20 border-t border-line py-10 sm:mt-28 sm:py-14">
+    <div class="grid gap-8 md:grid-cols-[180px_1fr] md:gap-12">
+
+      <p class="font-mono text-label uppercase text-ink-muted">
+        What connects them
+      </p>
+
+      <div class="max-w-reading space-y-5 text-body leading-relaxed text-ink-muted">
+        <p>
+          I tend to work on the problems underneath data products: execution,
+          orchestration, storage, quality, performance, and reusable tooling.
+        </p>
+
+        <p>
+          A recurring constraint is infrastructure that isn't unlimited.
+          On-prem environments, modest hardware, and open-source-only
+          requirements force engineering decisions that are easy to ignore
+          in a greenfield cloud setup.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+</MainLayout>

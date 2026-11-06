@@ -1,0 +1,27 @@
+---
+export interface Props {
+  title: string;
+  subtitle?: string;
+  path?: string;
+}
+
+const { title, subtitle, path } = Astro.props;
+---
+
+<header class="mt-10 mb-10 sm:mb-16">
+  {path && (
+    <p class="mb-5 font-mono text-xs uppercase tracking-[0.1em] text-ink-faint">
+      {path}
+    </p>
+  )}
+
+  <h1 class="text-title text-ink">
+    {title}
+  </h1>
+
+  {subtitle && (
+    <p class="mt-4 max-w-reading text-body text-ink-muted">
+      {subtitle}
+    </p>
+  )}
+</header>

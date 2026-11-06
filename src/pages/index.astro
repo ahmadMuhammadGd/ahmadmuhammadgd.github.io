@@ -1,0 +1,280 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Button from "../components/Button.astro";
+import { getArticles } from "../lib/devto";
+import ArticleRow from "../components/ArticleRow.astro";
+
+const articles = await getArticles();
+
+const sortedArticles = [...articles].sort((a, b) => {
+  return (
+    new Date(b.published_at).getTime() -
+    new Date(a.published_at).getTime()
+  );
+});
+---
+
+<MainLayout
+  title="Ahmad Muhammad"
+  description="Data Engineer · Data Infrastructure & Open Source"
+>
+
+<!-- HERO -->
+<section class="relative mt-10 w-full overflow-hidden ">
+  <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div class="hero-grid"></div>
+  </div>
+
+  
+  <div class="relative mx-auto w-full max-w-7xl px-5 sm:px-8 sm:py-12 lg:px-12 xl:px-16">
+    <!-- Editorial header -->
+    <div class="flex items-center justify-between font-mono text-label uppercase text-ink-faint">
+      <span>~/index.sh</span>
+
+      <span class="flex items-center gap-2">
+        <span class="relative flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-30"></span>
+          <span class="relative h-2 w-2 rounded-full bg-accent"></span>
+        </span>
+        Available for opportunities
+      </span>
+    </div>
+
+    <!-- Name -->
+    <div class="relative mt-16 sm:mt-20 lg:mt-24">
+
+      <h1
+        class="text-display font-semibold leading-[0.84] tracking-[-0.065em] text-ink"
+        style="font-size: clamp(4.25rem, 10vw, 9rem);"
+      >
+        <span class="block">Ahmad</span>
+        <span class="mt-1 block">
+          Muhammad<span class="text-accent">.</span>
+        </span>
+      </h1>
+
+
+    </div>
+
+    <!-- Professional identity -->
+    <div class="mt-12 grid grid-cols-1 gap-10 pt-7 sm:mt-16 sm:grid-cols-12 sm:gap-8">
+
+      <!-- Role -->
+      <div class="sm:col-span-5 lg:col-span-4">
+
+        <div class="border-l-2 border-accent pl-5">
+
+          <p class="text-xl font-medium uppercase leading-tight tracking-tight text-ink sm:text-2xl">
+            Data Engineer
+          </p>
+
+          <p class="mt-3 font-mono text-label uppercase leading-relaxed text-ink-faint">
+            Data Infrastructure<br />
+            & Open Source
+          </p>
+
+        </div>
+
+        <div class="pl-5 mt-8">
+          <Button
+            href="/writing"
+            label="explore my writings"
+            class="!bg-accent !text-white hover:!bg-accent-muted mr-5"
+          />
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="sm:col-span-7 sm:col-start-6 lg:col-span-6 lg:col-start-7">
+
+        <div class="mb-5 flex items-center gap-3">
+          <span class="h-px w-8 bg-accent"></span>
+          <span class="font-mono text-[10px] uppercase tracking-widest text-ink-faint">
+            What I build
+          </span>
+        </div>
+
+        <p class="max-w-xl text-xl leading-relaxed tracking-tight text-ink sm:text-2xl">
+          I build data infrastructure and developer tooling.
+        </p>
+
+        <p class="mt-4 max-w-lg text-body leading-relaxed text-ink-muted">
+          Working across data quality, distributed processing,
+          orchestration, and open-source engineering.
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- Technology index -->
+    <div class="mt-16 border-t border-line-muted pt-5 sm:mt-20">
+
+      <div class="mb-4 flex items-center justify-between">
+        <span class="font-mono text-label uppercase text-ink-faint">
+          Technologies & domains
+        </span>
+
+        <span class="font-mono text-[9px] uppercase tracking-widest text-ink-faint">
+          01 — 04
+        </span>
+      </div>
+
+      <div class="flex flex-wrap gap-x-6 gap-y-3 font-mono text-label font-medium uppercase text-ink-muted">
+        <span>Python</span>
+        <span>SQL</span>
+        <span>PySpark</span>
+        <span>Airflow</span>
+        <span>Delta Lake</span>
+        <span>PostgreSQL</span>
+        <span>Docker</span>
+        <span>Data Quality</span>
+        <span>dbt</span>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<section class="relative mx-auto mt-20 w-full max-w-7xl px-5 sm:mt-24 sm:px-8 lg:px-12">
+  <!-- Section header rule -->
+  <div class="mb-12 border-t border-line pt-3 sm:mb-16">
+    <div
+      class="flex items-center justify-between font-mono text-label uppercase text-ink-faint"
+    >
+      <span>01/ SELECTED PROJECTS</span>
+      <span>Open Source</span>
+    </div>
+  </div>
+
+  <!-- Two-column feature: copy left, product right -->
+  <div
+    class="grid items-center gap-12 pb-16 md:grid-cols-[1.1fr_1fr] md:gap-16 lg:gap-24"
+  >
+    <!-- Left: all copy on one axis -->
+    <div>
+      <h2 class="max-w-xl text-title text-ink sm:text-3xl lg:text-4xl">
+        Data quality should live where the data runs.
+      </h2>
+
+      <p class="mt-6 max-w-xl text-body text-ink-muted">
+        nativedq is an open-source framework I founded for running native data
+        quality tests against processed data. It separates test definition,
+        execution, and artifact storage, so validation happens inside the
+        processing environment and produces queryable results instead of
+        becoming another external reporting layer.
+      </p>
+
+      <!-- Same treatment as the hero's "Explore my work" button -->
+      <Button
+        href="https://github.com/ahmadMuhammadGd/NativeDQ",
+        label="Explore nativedq",
+        class="!bg-accent !text-white hover:!bg-accent-muted mt-10"
+      />
+    </div>
+      <!-- Right: the product, framed -->
+    <div
+      class="relative flex min-h-64 items-center justify-center border border-line p-10 sm:p-14"
+    >
+      <!-- Corner ticks echo the hero's technical/grid feel -->
+      <span class="absolute left-0 top-0 h-3 w-3 border-l border-t border-ink-faint"></span>
+      <span class="absolute right-0 top-0 h-3 w-3 border-r border-t border-ink-faint"></span>
+      <span class="absolute bottom-0 left-0 h-3 w-3 border-b border-l border-ink-faint"></span>
+      <span class="absolute bottom-0 right-0 h-3 w-3 border-b border-r border-ink-faint"></span>
+
+<img
+  src="/nativedq-logo-dark.svg"
+  alt="NativeDQ logo"
+  class="hidden h-20 w-auto max-w-full object-contain sm:h-24 dark:block"
+/>
+
+<img
+  src="/nativedq-logo-light.svg"
+  alt="NativeDQ logo"
+  class="block h-20 w-auto max-w-full object-contain sm:h-24 dark:hidden"
+/>
+
+
+    </div>
+  </div>
+</section>
+
+<!-- Selected Work -->
+<section class="relative mx-auto mt-20 w-full max-w-7xl px-5 sm:mt-24 sm:px-8 lg:px-12">
+    <!-- section header -->
+  <div class="mt-0 mb-20 border-t border-line pt-3">
+    <div
+      class="flex items-center justify-between font-mono text-label uppercase text-ink-faint"
+    >
+      <span>02 / FEATURED Articles</span>
+
+      <span>systems</span>
+    </div>
+  </div>
+
+
+{
+  sortedArticles.map((article, index) => (
+    <ArticleRow
+      title={article.title}
+      description={article.description}
+      tags={article.tag_list}
+      url={article.url}
+      coverImage={article.cover_image}
+      index={index + 1}
+    />
+  ))
+}
+
+</section>
+
+
+<!-- 04 / DISCUSS AN OPPORTUNITY -->
+<section class="relative mx-auto mt-20 w-full max-w-7xl px-5 sm:mt-24 sm:px-8 lg:px-12">
+  <div
+    class="flex items-center justify-between font-mono text-label uppercase text-ink-faint mt-0 mb-20 border-t border-line pt-3"
+  >
+    <span>03 / DISCUSS AN OPPORTUNITY</span>
+
+    <span>Contact me</span>
+  </div>
+
+  <div class="mt-10 grid gap-10 md:grid-cols-[180px_1fr] md:gap-12">
+    <!-- label -->
+    <div>
+      <div class="flex items-center gap-3">
+        <span class="h-px w-7 bg-accent"></span>
+
+        <p class="font-mono text-label uppercase text-ink-muted">DISCUSS AN OPPORTUNITY</p>
+      </div>
+    </div>
+
+      <div class="max-w-3xl">
+      <p
+        class="text-xl leading-8 text-ink sm:text-2xl sm:leading-9 lg:text-3xl lg:leading-[1.35]"
+      >
+          Have an interesting data engineering problem? </p>
+      <p
+        class="text-xl leading-8 text-ink sm:text-2xl sm:leading-9 lg:text-3xl lg:leading-[1.35]"
+      >
+          I'm open to discussing opportunities involving data infrastructure,
+          distributed processing, data quality, and developer tooling.
+        </p>
+
+        <div class="mt-8">
+          <Button
+            href="/contact-me"
+            label="Discuss an opportunity"
+            class="!bg-ink !text-paper hover:!bg-accent-muted mr-5"
+          />
+        </div>
+      </div>
+
+    </div>
+
+</section>
+
+
+</MainLayout>

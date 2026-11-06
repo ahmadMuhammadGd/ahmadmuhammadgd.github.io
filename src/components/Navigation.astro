@@ -1,0 +1,230 @@
+---
+import Button from "./Button.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+
+const navItems = [
+  { label: "Writing", path: "/writing" },
+  { label: "About", path: "/about" },
+];
+
+const currentPath = Astro.url.pathname;
+
+const isActive = (path: string) => {
+  if (path === "/") return currentPath === "/";
+  return currentPath === path || currentPath.startsWith(`${path}/`);
+};
+---
+
+<header
+  id="site-header"
+  class="sticky top-0 z-50 border-b border-line bg-paper/95 backdrop-blur-sm transition-transform duration-300 ease-out"
+>
+  <div class="mx-auto w-full max-w-content px-4 sm:px-8 lg:px-10">
+    <nav class="flex h-16 items-center justify-between">
+
+      <!-- BRAND -->
+      <a
+        href="/"
+        class="group flex items-center gap-3 font-mono text-sm font-medium tracking-tight text-ink no-underline transition-colors duration-200 hover:text-accent"
+      >
+        <span
+          class="h-1.5 w-1.5 bg-ink transition-colors duration-200 group-hover:bg-accent"
+        ></span>
+
+        <span>AHMAD.MD</span>
+      </a>
+
+      <!-- DESKTOP NAV -->
+      <div class="hidden items-center gap-5 sm:flex lg:gap-6">
+
+        {
+          navItems.map((item) => (
+            <a
+              href={item.path}
+              aria-current={isActive(item.path) ? "page" : undefined}
+              class:list={[
+                "link-draw font-mono text-xs uppercase tracking-wide transition-colors duration-200",
+                isActive(item.path)
+                  ? "text-accent"
+                  : "text-ink-muted hover:text-accent",
+              ]}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+
+        <Button
+          href="/contact-me"
+          label="Discuss an opportunity"
+          class="!rounded-none !border !border-line !bg-ink !px-3 !py-2 !font-mono !text-xs !font-normal !uppercase !tracking-wide !text-paper"
+        />
+
+        <div class="border-l border-line pl-5">
+          <ThemeToggle />
+        </div>
+      </div>
+
+      <!-- MOBILE CONTROLS -->
+      <div class="flex items-center gap-3 sm:hidden">
+
+        <ThemeToggle />
+
+        <button
+          id="menu-toggle"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          class="group relative flex h-9 w-9 items-center justify-center border border-line text-ink transition-colors duration-200 hover:border-accent hover:text-accent"
+        >
+          <span class="sr-only">Toggle navigation</span>
+
+          <span
+            id="menu-icon"
+            class="relative block h-4 w-4"
+          >
+            <span
+              class="absolute left-0 top-0 block h-px w-4 bg-current transition-all duration-200"
+            ></span>
+
+            <span
+              class="absolute left-0 top-[7px] block h-px w-4 bg-current transition-all duration-200"
+            ></span>
+
+            <span
+              class="absolute left-0 top-[14px] block h-px w-4 bg-current transition-all duration-200"
+            ></span>
+          </span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div
+      id="mobile-menu"
+      class="hidden border-t border-line py-4 sm:hidden"
+    >
+      <div class="flex flex-col">
+
+        {
+          navItems.map((item) => (
+            <a
+              href={item.path}
+              aria-current={isActive(item.path) ? "page" : undefined}
+              class:list={[
+                "border-b border-line py-4 font-mono text-xs uppercase tracking-wide transition-colors duration-200",
+                isActive(item.path)
+                  ? "text-accent"
+                  : "text-ink-muted hover:text-accent",
+              ]}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+
+        <a
+          href="https://github.com/ahmadmuhammadgd"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="py-4 font-mono text-xs uppercase tracking-wide text-ink-muted transition-colors duration-200 hover:text-accent"
+        >
+          GitHub ↗
+        </a>
+
+        <a
+          href="https://www.linkedin.com/in/ahmadmuhammadgd/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="py-4 font-mono text-xs uppercase tracking-wide text-ink-muted transition-colors duration-200 hover:text-accent"
+        >
+          LinkedIn ↗
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    const header = document.getElementById("site-header");
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+    const icon = document.getElementById("menu-icon");
+
+    if (!header || !toggle || !menu || !icon) return;
+
+    /* MOBILE MENU */
+
+    toggle.onclick = () => {
+      const open = toggle.getAttribute("aria-expanded") === "true";
+
+      toggle.setAttribute("aria-expanded", String(!open));
+      toggle.setAttribute(
+        "aria-label",
+        open ? "Open menu" : "Close menu"
+      );
+
+      menu.classList.toggle("hidden", open);
+
+      const lines = icon.children;
+
+      if (!open) {
+        // Hamburger → X
+        lines[0].classList.add("translate-y-[7px]", "rotate-45");
+        lines[1].classList.add("opacity-0");
+        lines[2].classList.add("-translate-y-[7px]", "-rotate-45");
+      } else {
+        // X → Hamburger
+        lines[0].classList.remove("translate-y-[7px]", "rotate-45");
+        lines[1].classList.remove("opacity-0");
+        lines[2].classList.remove("-translate-y-[7px]", "-rotate-45");
+      }
+    };
+
+    /* CLOSE MENU AFTER NAVIGATION */
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        menu.classList.add("hidden");
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.setAttribute("aria-label", "Open menu");
+
+        const lines = icon.children;
+
+        lines[0].classList.remove(
+          "translate-y-[7px]",
+          "rotate-45"
+        );
+
+        lines[1].classList.remove("opacity-0");
+
+        lines[2].classList.remove(
+          "-translate-y-[7px]",
+          "-rotate-45"
+        );
+      });
+    });
+
+    /* HEADER HIDE ON SCROLL */
+
+    let lastScroll = window.scrollY;
+
+    window.onscroll = () => {
+      const currentScroll = window.scrollY;
+
+      if (currentScroll <= 20) {
+        header.classList.remove("-translate-y-full");
+      } else if (currentScroll > lastScroll) {
+        header.classList.add("-translate-y-full");
+      } else {
+        header.classList.remove("-translate-y-full");
+      }
+
+      lastScroll = currentScroll;
+    };
+  }
+
+  document.addEventListener("astro:page-load", initHeader);
+</script>
