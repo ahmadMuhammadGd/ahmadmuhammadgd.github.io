@@ -2,7 +2,12 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import Hero from '../components/Hero.astro';
 import Button from '../components/Button.astro';
+import TechStack from '../components/TechStack.astro';
+
+import { technologies } from "../data/technologies";
+
 ---
+
 
 <MainLayout
   title="About"
@@ -22,10 +27,9 @@ import Button from '../components/Button.astro';
           01 / Profile
         </span>
 
-        <div class="space-y-1 font-mono text-label text-ink-faint">
+        <div class="space-y-1 font-mono text-label text-ink">
           <p>Egypt</p>
           <p>Data Engineer</p>
-          <p>Since 2024</p>
         </div>
       </aside>
 
@@ -72,23 +76,11 @@ import Button from '../components/Button.astro';
             03 / Toolkit
           </span>
 
-          <div class="flex flex-wrap gap-x-3 gap-y-2 font-mono text-sm text-ink-muted">
-            <span>Python</span>
-            <span>-</span>
-            <span>SQL</span>
-            <span>-</span>
-            <span>Apache Airflow</span>
-            <span>-</span>
-            <span>Apache Spark</span>
-            <span>-</span>
-            <span>Docker</span>
-            <span>-</span>
-            <span>PostgreSQL</span>
-            <span>-</span>
-            <span>Delta Lake</span>
-          </div>
-        </div>
 
+
+          <TechStack items={technologies} />
+
+        </div>
         <!-- Open source -->
         <div class="space-y-5">
           <span class="font-mono text-label uppercase tracking-wide text-ink-faint">
@@ -142,7 +134,7 @@ import Button from '../components/Button.astro';
           <Button
             href="/contact-me"
             label="Discuss an opportunity"
-            class="!bg-accent !text-ink hover:!bg-accent-muted mr-5"
+            class="!bg-accent !text-background hover:!bg-accent-muted mr-5"
           />
         </div>
       </div>
